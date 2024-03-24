@@ -7,6 +7,7 @@ import {StartScreen} from "./components/StartScreen";
 import {Question} from "./components/Question";
 import {NextButton} from "./components/NextButton";
 import {Progress} from "./components/Progress";
+import {FinishScreen} from "./components/FinishScreen";
 
 
 const initialState = {
@@ -49,6 +50,13 @@ function reducer(state, action) {
         index: state.index + 1,
         answer: null
       };
+    case "finish":
+      const highscore = localStorage.getItem("highscore");
+      if (highscore < state.points) localStorage.setItem("highscore", state.points);
+      return {
+        ...state,
+        status: "finished"
+      }
     default:
       throw new Error("Actions unknown");
   }
@@ -95,9 +103,16 @@ function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton dispatch={dispatch} answer={answer}/>
+            <NextButton
+              dispatch={dispatch}
+              answer={answer}
+              numQuestions={numQuestions}
+              index={index}
+            />
           </>
         }
+
+        {status === "finished" && <FinishScreen points={points} maxPoints={overalPoints} /> }
       </Main>
     </div>
   );

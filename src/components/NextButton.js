@@ -1,9 +1,15 @@
-export function NextButton({dispatch, answer}) {
+export function NextButton({dispatch, answer, numQuestions, index}) {
   if (answer === null) return;
 
-  return (
+  if (index + 1 < numQuestions) return (
     <button className="btn btn-ui" onClick={() => dispatch({type: "nextQuestion"})}>
       Next
+    </button>
+  );
+
+  return (
+    <button className="btn btn-ui" onClick={() => dispatch({type: "finish"})}>
+      Finish
     </button>
   );
 }
