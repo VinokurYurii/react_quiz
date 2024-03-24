@@ -56,7 +56,15 @@ function reducer(state, action) {
       return {
         ...state,
         status: "finished"
-      }
+      };
+    case "restart":
+      return {
+        ...state,
+        status: "ready",
+        index: 0,
+        answer: null,
+        points: 0
+      };
     default:
       throw new Error("Actions unknown");
   }
@@ -112,7 +120,7 @@ function App() {
           </>
         }
 
-        {status === "finished" && <FinishScreen points={points} maxPoints={overalPoints} /> }
+        {status === "finished" && <FinishScreen points={points} maxPoints={overalPoints} dispatch={dispatch} /> }
       </Main>
     </div>
   );
